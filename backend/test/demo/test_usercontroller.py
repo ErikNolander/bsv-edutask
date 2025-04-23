@@ -31,7 +31,7 @@ def test_valid_email_no_user_found(user_controller, mock_dao):
     result2 = user_controller.get_user_by_email('valid@domain.com')
     assert result2 is None
 
-def tes_invalid_email_raises_value_error(users_controller):
+def test_invalid_email_raises_value_error(user_controller):
     with pytest.raises(ValueError):
         user_controller.get_user_by_email('invalidemail')
 
