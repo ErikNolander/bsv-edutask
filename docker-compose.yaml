@@ -10,6 +10,8 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=root
     ports:
       - "27017:27017"
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     command: mongod --bind_ip_all
 
   backend:

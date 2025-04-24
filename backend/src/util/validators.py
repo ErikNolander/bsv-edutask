@@ -1,4 +1,5 @@
 import json
+import os
 
 validators = {}
 def getValidator(collection_name: str):
@@ -11,6 +12,8 @@ def getValidator(collection_name: str):
         validator -- dict in the format of a MongoDB collection validator
     """
     if collection_name not in validators:
-        with open(f'./src/static/validators/{collection_name}.json', 'r') as f:
+        validators_dir = os.path.join(os.path.dirname(__file__), '..', 'static', 'validators')
+        filepath = os.path.abspath(os.path.join(validators_dir, f'{collection_name}.json'))
+        with open(filepath, 'r') as f:
             validators[collection_name] = json.load(f)
     return validators[collection_name]
