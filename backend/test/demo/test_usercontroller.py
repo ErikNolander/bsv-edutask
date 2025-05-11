@@ -18,13 +18,19 @@ def test_valid_email_single_user(user_controller, mock_dao):
     result = user_controller.get_user_by_email('valid@domain.com')
     assert result == mock_user
 
-def test_valid_email_multiple_users(user_controller, mock_dao, capsys):
+#changed from using two asserts to using one assert (def 1)
+def test_valid_email_multiple_users_logs_warning(user_controller, mock_dao, capsys):
     users = [{'email' : 'valid@domain.com'}, {'email' : 'valid@domain.com'}]
     mock_dao.find.return_value = users
-    result1 = user_controller.get_user_by_email('valid@domain.com')
+    user_controller.get_user_by_email('valid@domain.com')
     captured = capsys.readouterr()
     assert 'more than one user' in captured.out
-    assert result1 == users[0]
+#def 2
+def test_valid_email_multiple_users_returns_first(user_controller, mock_dao):
+    users = [{'email' : 'valid@domain.com'}, {'email' : 'valid@domain.com'}]
+    mock_dao.find.return_value = users
+    result = user_controller.get_user_by_email('valid@domain.com')
+    assert result == users[0]
 
 def test_valid_email_no_user_found(user_controller, mock_dao):
     mock_dao.find.return_value = []
@@ -35,8 +41,8 @@ def test_invalid_email_raises_value_error(user_controller):
     with pytest.raises(ValueError):
         user_controller.get_user_by_email('invalidemail')
 
+#updated to use match=
 def test_dao_exception_raises_exception(user_controller, mock_dao):
     mock_dao.find.side_effect = Exception("DB error")
-    with pytest.raises(Exception) as excinfo:
+    with pytest.raises(Exception, match="DB error"):
         user_controller.get_user_by_email('valid@domain.com')
-    assert "DB error" in str(excinfo.value)
