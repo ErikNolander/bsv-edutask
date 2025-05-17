@@ -1,0 +1,22 @@
+name: CI with Docker Compose
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Compose
+      run: docker-compose -f docker-compose.yml up --build --abort-on-container-exit
+
+    - name: Tear down
+      if: always()
+      run: docker-compose -f docker-compose.yml down
