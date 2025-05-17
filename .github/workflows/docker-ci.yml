@@ -32,7 +32,7 @@ jobs:
         run: docker-compose -f docker-compose.yaml up -d
 
       - name: Run backend tests
-        run: pytest test/demo/test_usercontroller.py
+        run: pytest
         working-directory: backend
 
       - name: Tear down
