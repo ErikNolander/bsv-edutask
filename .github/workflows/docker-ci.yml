@@ -30,7 +30,7 @@ jobs:
 
       - name: Start backend and wait for MongoDB
         run: docker-compose -f docker-compose.yaml up -d
-        working-directory: backend
+        working-directory: bsv-edutask
 
       - name: Run backend tests
         run: pytest
@@ -39,4 +39,4 @@ jobs:
       - name: Tear down
         if: always()
         run: docker-compose -f docker-compose.yaml down
-        working-directory: backend
+        working-directory: bsv-edutask
