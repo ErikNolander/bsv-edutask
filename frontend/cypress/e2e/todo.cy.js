@@ -146,7 +146,7 @@ it('R8UC3-TC1: Delete a todo item', () => {
 
         cy.contains('.todo-item', 'Delete me').as('targetTodo');
 
-        cy.get('@targetTodo').find('.remover').click({ force: true }).click({ force: true });
+        cy.get('@targetTodo').find('.remover').click({ force: true });
 
         cy.get('.todo-item').contains('Delete me').should('not.exist');
     });
